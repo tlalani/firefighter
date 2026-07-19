@@ -1,0 +1,24 @@
+import { EdgeID, TileID } from "./ids";
+
+export enum EdgeType {
+    DOOR = "DOOR", WALL = "WALL"
+}
+
+export interface Edge {
+    id: EdgeID;
+    tileA: TileID;
+    tileB: TileID;
+    type: EdgeType;
+}
+
+export interface DoorEdge extends Edge {
+    type: EdgeType.DOOR;
+    open: boolean;
+}
+
+export interface WallEdge extends Edge {
+    type: EdgeType.WALL;
+    counters: number;
+}
+
+export type BoardEdge = DoorEdge | WallEdge;
