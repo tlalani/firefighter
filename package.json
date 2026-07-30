@@ -1,0 +1,22 @@
+{
+  "name": "firefighter",
+  "version": "1.0.0",
+  "description": "This is firefighter game. Tryna see if I can do this thing.",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tlalani/firefighter.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tlalani/firefighter/issues"
+  },
+  "homepage": "https://github.com/tlalani/firefighter#readme",
+  "devDependencies": {
+    "vitest": "^4.1.10"
+  }
+}

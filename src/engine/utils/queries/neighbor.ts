@@ -3,22 +3,14 @@ import { TileID } from "../../board/ids";
 import { Tile } from "../../board/tile";
 import { Entity } from "../../entities/entity";
 import { GameState } from "../../gamestate/gamestate";
+import { getXYFromDirection } from "./direction";
 import { getEdge } from "./edge";
 import { getTile } from "./tile";
 
-export function hasNeighborTile(state: GameState, tileID: TileID, dir: Direction): boolean {
-    const edge = getEdge(state, tileID, dir);
-    return !!edge;
-}
-
 export function getNeighborTile(state: GameState, tileID: TileID, dir: Direction): Tile | null {
-    if (!hasNeighborTile(state, tileID, dir)) return null;
-
-    const edge = getEdge(state, tileID, dir);
-    if (!edge) return null;
-    const otherTileID = edge.tileA === tileID ? edge.tileB : edge.tileA;
-    const otherTile = getTile(state, otherTileID);
-    return otherTile;
+    const tile = getTile(state, tileID);
+    const [x, y] = getXYFromDirection(tile.x, tile.y, dir);
+    return state.board.tiles.find(tile => tile.x === x && tile.y === y) ?? null;
 }
 
 export function getNeighborEntity(state: GameState, tileID: TileID, dir: Direction): Entity | null {

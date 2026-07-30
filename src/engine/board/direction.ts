@@ -1,5 +1,5 @@
 export enum Direction {
-    N, S, E, W
+    N = "NORTH", S = "SOUTH", E = "EAST", W = "WEST"
 }
 
 export const DIRECTIONS = [
