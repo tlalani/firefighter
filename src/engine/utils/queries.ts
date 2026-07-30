@@ -1,26 +1,22 @@
 import { Board } from "../board/board";
 import { Direction } from "../board/direction";
 import { Edge, EdgeType } from "../board/edge";
-import { PlayerID, TileID } from "../board/ids";
+import { TileID } from "../board/ids";
 import { EntityType } from "../entities/entity";
 import { GameState } from "../gamestate/gamestate";
 import { Player } from "../player/player";
 import { Action, ActionCost, AvailableAction } from "./actions/actions.model";
-import { canCrossEdge, getEdge, hasEdge } from "./queries/edge";
+import { canCrossEdge, getEdge } from "./queries/edge";
 import { hasEntity, getEntity } from "./queries/entity";
-import { getNeighborEntity, getNeighborTile, hasNeighborTile } from "./queries/neighbor";
+import { getNeighborEntity, getNeighborTile } from "./queries/neighbor";
+import { getTile } from "./queries/tile";
 
 export function canMove(state: GameState, tileID: TileID, dir: Direction): boolean {
-    let currentTileID = tileID;
 
-    const tile = state.board.tiles[tileID]!;
-    const edgeID = tile.edges[dir]!;
+    const thisTile = getTile(state, tileID);
+    const otherTile = getNeighborTile(state, tileID, dir);
 
-    if (!edgeID || !canCrossEdge(state, edgeID)) return false;
-
-    const nextTile = getNeighborTile(state, currentTileID, dir);
-    if (!nextTile) return false;
-
+    if (!otherTile || thisTile.edges[dir] && !canCrossEdge(state, thisTile.edges[dir])) return false;
     return true;
 }
 
@@ -38,7 +34,7 @@ export function getAvailableActionsByDirection(state: GameState, dir: Direction)
 }
 
 function _getMovementActionInDirection(state: GameState, player: Player, dir: Direction): AvailableAction[] {
-    if (hasNeighborTile(state, player.tileID, dir) && canMove(state, player.tileID, dir)) {
+    if (canMove(state, player.tileID, dir)) {
         const fireOnNeighbor = getNeighborEntity(state, player.tileID, dir)?.type === EntityType.FIRE;
         const isPlayerCarryingSomething = !!player.carryingEntityID;
 
@@ -56,7 +52,7 @@ function _getMovementActionInDirection(state: GameState, player: Player, dir: Di
 }
 
 function _getWallOrDoorActionInDirection(state: GameState, player: Player, dir: Direction): AvailableAction[] {
-    const edge = hasEdge(state, player.tileID, dir) ? getEdge(state, player.tileID, dir) : null;
+    const edge = getEdge(state, player.tileID, dir);
     if (edge) {
         if (edge.type === EdgeType.WALL) return [{ action: Action.Chop, direction: dir }];
         else if (edge.type === EdgeType.DOOR) {
