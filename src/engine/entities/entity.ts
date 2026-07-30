@@ -1,7 +1,7 @@
 import { EntityID, TileID } from "../board/ids";
 
 export enum EntityType {
-    POI, CHEMICAL, FIRE, SMOKE
+    POI = "POI", CHEMICAL = "CHEM", FIRE = "FIRE", SMOKE = "SMOKE"
 }
 
 export interface Entity {

@@ -5,7 +5,8 @@ import { GameState } from "../../gamestate/gamestate";
 import { getTile } from "./tile";
 
 export function hasEdge(state: GameState, tileID: TileID, dir: Direction): boolean {
-    return !!getTile(state, tileID).edges[dir]
+    const tile = getTile(state, tileID);
+    return !!tile.edges[dir];
 }
 
 export function getEdge(state: GameState, tileID: TileID, dir: Direction): BoardEdge | null {
