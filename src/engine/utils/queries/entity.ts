@@ -2,8 +2,6 @@ import { EntityID, PlayerID, TileID } from "../../board/ids";
 import { Entity, EntityType } from "../../entities/entity";
 import { GameState } from "../../gamestate/gamestate";
 import { getTile } from "./tile";
-import { getNeighborTile } from "./neighbor";
-import { Direction } from "../../board/direction";
 
 export function hasEntity(state: GameState, tileID: TileID): boolean {
     const tile = getTile(state, tileID);

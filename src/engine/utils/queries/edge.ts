@@ -1,5 +1,5 @@
 import { Direction } from "../../board/direction";
-import { BoardEdge, DoorEdge, Edge, EdgeType, WallEdge } from "../../board/edge";
+import { BoardEdge, DoorEdge, EdgeType, WallEdge } from "../../board/edge";
 import { TileID, EdgeID } from "../../board/ids";
 import { GameState } from "../../gamestate/gamestate";
 import { getTile } from "./tile";

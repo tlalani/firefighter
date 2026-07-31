@@ -1,4 +1,4 @@
-import { EntityID, PlayerID } from "../../board/ids";
+import { EntityID } from "../../board/ids";
 import { GameState } from "../../gamestate/gamestate";
 import { Player } from "../../player/player";
 

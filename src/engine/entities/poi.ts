@@ -1,4 +1,3 @@
-import { PlayerID } from "../board/ids";
 import { Entity, EntityType } from "./entity";
 
 export interface POIEntity extends Entity {

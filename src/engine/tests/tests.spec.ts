@@ -1,13 +1,13 @@
 import { Direction } from "../board/direction";
 import { DoorEdge, EdgeType } from "../board/edge";
 import { edgeID, entityID, playerID, roomID, tileID } from "../board/ids";
-import { GameState, generateGameState, printBoard } from "../gamestate/gamestate";
+import { GameState, generateGameState } from "../gamestate/gamestate";
 import { getAvailableActionsByDirection, getAvailableActionsOnTile } from "../utils/queries";
 import { describe, expect, it } from 'vitest';
 import { getTile } from "../utils/queries/tile";
 import { Action } from "../utils/actions/actions.model";
 import { EntityType } from "../entities/entity";
-import { addEntity, pickupEntity, removeEntity } from "../utils/actions/entity";
+import { addEntity, removeEntity } from "../utils/actions/entity";
 import { getNeighborEntity } from "../utils/queries/neighbor";
 import { getEntity } from "../utils/queries/entity";
 import { POIEntity } from "../entities/poi";

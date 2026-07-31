@@ -1,7 +1,7 @@
 import { Board } from "../board/board";
 import { Edge, EdgeType, WallEdge, DoorEdge } from "../board/edge";
 import { edgeID, entityID, EntityID, PlayerID, roomID, TileID, tileID } from "../board/ids";
-import { Entity, EntityType } from "../entities/entity";
+import { Entity } from "../entities/entity";
 import { Player } from "../player/player";
 import { getDirection, opposite } from "../utils/queries/direction";
 
@@ -64,56 +64,4 @@ export function generateGameState(width: number, height: number, tiles: { x: num
     };
 
     return state;
-}
-
-
-export function printBoard(state: GameState): string {
-    const tileMap = new Map(
-        state.board.tiles.map(tile => [`${tile.x},${tile.y}`, tile])
-    );
-
-    const lines: string[] = [];
-
-    for (let y = 0; y < state.board.height; y++) {
-        const row: string[] = [];
-
-        for (let x = 0; x < state.board.width; x++) {
-            const tile = tileMap.get(`${x},${y}`);
-
-            if (!tile) {
-                row.push("·");
-                continue;
-            }
-
-            const entity = tile.entity !== null
-                ? state.entities[tile.entity]
-                : null;
-
-            const playersHere = Object.values(state.players).filter(
-                player => player.tileID === tile.id
-            );
-
-            const parts: string[] = [];
-
-            if (entity) {
-                const symbol =
-                    entity.type === EntityType.FIRE ? "F" :
-                        entity.type === EntityType.CHEMICAL ? "C" :
-                            entity.type === EntityType.POI ? "P" :
-                                "S";
-
-                parts.push(symbol);
-            }
-
-            if (playersHere.length > 0) {
-                parts.push(...playersHere.map(player => `P${player.id}`));
-            }
-
-            row.push(parts.join("") || ".");
-        }
-
-        lines.push(row.join(" "));
-    }
-
-    return lines.join("\n");
 }

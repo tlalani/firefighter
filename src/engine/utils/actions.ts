@@ -1,5 +1,4 @@
 import { Direction } from "../board/direction";
-import { EdgeType } from "../board/edge";
 import { EntityType } from "../entities/entity";
 import { GameState } from "../gamestate/gamestate";
 import { Player } from "../player/player";
@@ -10,7 +9,6 @@ import { getNeighborTile, getNeighborEntity } from "./queries/neighbor";
 import { Action, ActionCost } from "./actions/actions.model";
 import { dropEntity, pickupEntity, removeEntity } from "./actions/entity";
 import { PlayerID } from "../board/ids";
-
 
 export function performAction(state: GameState, player: Player, action: Action, dir: Direction | null) {
     switch (action) {

@@ -1,6 +1,5 @@
-import { Board } from "../board/board";
 import { Direction } from "../board/direction";
-import { Edge, EdgeType } from "../board/edge";
+import { EdgeType } from "../board/edge";
 import { TileID } from "../board/ids";
 import { EntityType } from "../entities/entity";
 import { GameState } from "../gamestate/gamestate";
