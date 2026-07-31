@@ -1,5 +1,5 @@
 {
-  "name": "firefighter",
+  "name": "@firefighter/engine",
   "version": "1.0.0",
   "description": "This is firefighter game. Tryna see if I can do this thing.",
   "main": "index.js",

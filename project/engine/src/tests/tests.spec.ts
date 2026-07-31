@@ -1,17 +1,18 @@
 import { Direction } from "../board/direction";
 import { DoorEdge, EdgeType } from "../board/edge";
 import { edgeID, entityID, playerID, roomID, tileID } from "../board/ids";
-import { GameState, generateGameState } from "../gamestate/gamestate";
 import { getAvailableActionsByDirection, getAvailableActionsOnTile } from "../utils/queries";
 import { describe, expect, it } from 'vitest';
 import { getTile } from "../utils/queries/tile";
 import { Action } from "../utils/actions/actions.model";
-import { EntityType } from "../entities/entity";
 import { addEntity, removeEntity } from "../utils/actions/entity";
 import { getNeighborEntity } from "../utils/queries/neighbor";
 import { getEntity } from "../utils/queries/entity";
-import { POIEntity } from "../entities/poi";
 import { pickupFromGround } from "../utils/actions";
+import { EntityType } from "../entities/entity";
+import { POIEntity } from "../entities/poi";
+import { generateGameState } from "../utils/game-setup";
+import { GameState } from "../gamestate/gamestate";
 
 const width = 1;
 const height = 2;
@@ -85,7 +86,7 @@ describe('boardGen and Wall Chop', () => {
     })
 });
 
-describe('Fire and Smoke', () => {
+describe('Fire, Smoke and carryables', () => {
     const gameState: GameState = generateGameState(width, height, tiles, [], entities, players);
 
     it('should get all actions when player AP > 3', () => {
@@ -150,4 +151,4 @@ describe('Fire and Smoke', () => {
         expect(actions.length).toBe(2);
         expect(actions.find(action => action.action === Action.MoveVictimOrHazmat)).toBeFalsy();
     })
-})
+});

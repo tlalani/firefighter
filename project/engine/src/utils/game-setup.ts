@@ -1,17 +1,9 @@
 import { Board } from "../board/board";
 import { Edge, EdgeType, WallEdge, DoorEdge } from "../board/edge";
-import { edgeID, entityID, EntityID, PlayerID, roomID, TileID, tileID } from "../board/ids";
+import { tileID, roomID, edgeID, TileID, EntityID, PlayerID, entityID } from "../board/ids";
 import { Entity } from "../entities/entity";
 import { Player } from "../player/player";
-import { getDirection, opposite } from "../utils/queries/direction";
-
-export interface GameState {
-    board: Board;
-    players: Record<PlayerID, Player>;
-    entities: Record<EntityID, Entity>;
-    currentPlayerTurn: PlayerID;
-    nextEntityID: EntityID;
-}
+import { getDirection, opposite } from "./queries/direction";
 
 export function generateBoard(width: number, height: number, tiles: { x: number, y: number, room: number, id: number }[], edges: { tileA: number, tileB: number, id: number, type: string }[]) {
     const board: Board = {
