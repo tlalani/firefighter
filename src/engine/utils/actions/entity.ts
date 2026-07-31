@@ -1,4 +1,5 @@
-import { EntityID, PlayerID } from "../../board/ids";
+import { entityID, EntityID, PlayerID, TileID } from "../../board/ids";
+import { Entity, EntityType } from "../../entities/entity";
 import { GameState } from "../../gamestate/gamestate";
 import { getEntity, isCarryable } from "../queries/entity";
 import { whichPlayerCarryingEntity } from "../queries/player";
@@ -19,6 +20,13 @@ export function removeEntity(state: GameState, entityID: EntityID) {
     delete state.entities[entityID];
 }
 
+export function addEntity(state: GameState, type: EntityType, tileID: TileID) {
+    const entity: Entity = { id: state.nextEntityID, type, tileID: tileID };
+    state.nextEntityID = entityID(state.nextEntityID + 1);
+    state.entities[entity.id] = entity;
+    state.board.tiles.find(tile => tile.id === tileID)!.entity = entity.id;
+}
+
 export function pickupEntity(state: GameState, playerID: PlayerID, entityID: EntityID) {
     const player = state.players[playerID]!
     const entity = state.entities[entityID];
@@ -29,6 +37,8 @@ export function pickupEntity(state: GameState, playerID: PlayerID, entityID: Ent
 
     if (isCarryable(state, entityID)) {
         player.carryingEntityID = entityID;
+        const tile = getTile(state, entity.tileID)
+        tile.entity = null;
         entity.tileID = null;
     }
 }

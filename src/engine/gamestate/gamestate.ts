@@ -1,6 +1,6 @@
 import { Board } from "../board/board";
 import { Edge, EdgeType, WallEdge, DoorEdge } from "../board/edge";
-import { edgeID, EntityID, playerID, PlayerID, roomID, TileID, tileID } from "../board/ids";
+import { edgeID, entityID, EntityID, PlayerID, roomID, TileID, tileID } from "../board/ids";
 import { Entity } from "../entities/entity";
 import { Player } from "../player/player";
 import { getDirection, opposite } from "../utils/queries/direction";
@@ -10,6 +10,7 @@ export interface GameState {
     players: Record<PlayerID, Player>;
     entities: Record<EntityID, Entity>;
     currentPlayerTurn: PlayerID;
+    nextEntityID: EntityID;
 }
 
 export function generateBoard(width: number, height: number, tiles: { x: number, y: number, room: number, id: number }[], edges: { tileA: number, tileB: number, id: number, type: string }[]) {
@@ -46,9 +47,8 @@ export function generateBoard(width: number, height: number, tiles: { x: number,
 
 export function generateGameState(width: number, height: number, tiles: { x: number, y: number, room: number, id: number }[], edges: { tileA: number, tileB: number, id: number, type: string }[], entities: Entity[], players: Player[]) {
     const board = generateBoard(width, height, tiles, edges);
-
     entities.forEach(entity => board.tiles.find(tile => tile.id === entity.tileID)!.entity = entity.id);
-
+    const lastEntityID = entities.sort((a, b) => a.id - b.id)[-1]?.id;
     const state: GameState = {
         board,
         entities: entities.reduce<Record<EntityID, Entity>>((obj, entity) => {
@@ -59,7 +59,8 @@ export function generateGameState(width: number, height: number, tiles: { x: num
             obj[player.id] = player;
             return obj;
         }, {}),
-        currentPlayerTurn: players[0]!.id
+        currentPlayerTurn: players[0]!.id,
+        nextEntityID: entityID((lastEntityID ?? 0) + 1)
     };
 
     return state;

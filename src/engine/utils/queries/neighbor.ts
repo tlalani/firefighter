@@ -4,7 +4,6 @@ import { Tile } from "../../board/tile";
 import { Entity } from "../../entities/entity";
 import { GameState } from "../../gamestate/gamestate";
 import { getXYFromDirection } from "./direction";
-import { getEdge } from "./edge";
 import { getTile } from "./tile";
 
 export function getNeighborTile(state: GameState, tileID: TileID, dir: Direction): Tile | null {
