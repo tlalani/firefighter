@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { generateGameState } from '@firefighter/engine';
+//import { generateGameState } from '@firefighter/engine';
 import './App.css'
 
 function App() {
-  const state = generateGameState()
+  //const state = generateGameState()
   const [count, setCount] = useState(0)
 
   return (

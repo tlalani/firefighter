@@ -1,5 +1,6 @@
 node_modules/
 engine/dist/
+engine/.vitest-cache
 # Logs
 ui/logs
 ui/*.log
