@@ -22,6 +22,7 @@ export function isCarryable(state: GameState, entityID: EntityID) {
         case EntityType.CHEMICAL:
             return true;
         case EntityType.FIRE:
+        case EntityType.SMOKE:
             return false;
     }
 }

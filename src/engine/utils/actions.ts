@@ -9,6 +9,7 @@ import { getEntity, getPlayerEntity, hasEntity } from "./queries/entity";
 import { getNeighborTile, getNeighborEntity } from "./queries/neighbor";
 import { Action, ActionCost } from "./actions/actions.model";
 import { dropEntity, pickupEntity, removeEntity } from "./actions/entity";
+import { PlayerID } from "../board/ids";
 
 
 export function performAction(state: GameState, player: Player, action: Action, dir: Direction | null) {
@@ -131,7 +132,8 @@ export function extinguishSmoke(state: GameState, player: Player, dir: Direction
     }
 }
 
-export function pickupFromGround(state: GameState, player: Player) {
+export function pickupFromGround(state: GameState, playerID: PlayerID) {
+    const player = state.players[playerID]!;
     const entity = getEntity(state, player.tileID)
     if (entity) pickupEntity(state, player.id, entity.id);
 }
