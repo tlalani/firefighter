@@ -8,7 +8,6 @@ import { getEntity, getPlayerEntity, hasEntity } from "./queries/entity.js";
 import { getNeighborTile, getNeighborEntity } from "./queries/neighbor.js";
 import { Action, ActionCost } from "./actions/actions.model.js";
 import { dropEntity, pickupEntity, removeEntity } from "./actions/entity.js";
-import { PlayerID } from "../board/ids.js";
 
 export function performAction(state: GameState, action: Action, dir: Direction | null) {
     const player = state.players[state.currentPlayerTurn]!;
@@ -17,7 +16,7 @@ export function performAction(state: GameState, action: Action, dir: Direction |
         case Action.MoveFire:
         case Action.MoveVictimOrHazmat:
             if (!dir) return;
-            if (canMove(state, player.tileID, dir)) {
+            if (canMove(state, player.tileID!, dir)) {
                 player.tileID = getNeighborTile(state, player.tileID, dir)!.id
                 player.currentAP -= ActionCost[action]
             }
