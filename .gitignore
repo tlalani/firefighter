@@ -1,26 +1,25 @@
-project/engine/node_modules/
-project/engine/dist/
+node_modules/
+engine/dist/
 # Logs
-project/ui/logs
-project/ui/*.log
-project/ui/npm-debug.log*
-project/ui/yarn-debug.log*
-project/ui/yarn-error.log*
-project/ui/pnpm-debug.log*
-project/ui/lerna-debug.log*
+ui/logs
+ui/*.log
+ui/npm-debug.log*
+ui/yarn-debug.log*
+ui/yarn-error.log*
+ui/pnpm-debug.log*
+ui/lerna-debug.log*
 
-project/ui/node_modules
-project/ui/dist
-project/ui/dist-ssr
-project/ui/*.local
+ui/dist
+ui/dist-ssr
+ui/*.local
 
 # Editor directories and files
-project/ui/.vscode/*
-project/ui/!.vscode/extensions.json
-project/ui/.idea
-project/ui/.DS_Store
-project/ui/*.suo
-project/ui/*.ntvs*
-project/ui/*.njsproj
-project/ui/*.sln
-project/ui/*.sw?
+ui/.vscode/*
+ui/!.vscode/extensions.json
+ui/.idea
+ui/.DS_Store
+ui/*.suo
+ui/*.ntvs*
+ui/*.njsproj
+ui/*.sln
+ui/*.sw?

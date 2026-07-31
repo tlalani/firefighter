@@ -1,0 +1,18 @@
+{
+    "name": "firefighter",
+    "private": true,
+    "workspaces": [
+        "engine",
+        "ui"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tlalani/firefighter.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/tlalani/firefighter/issues"
+    },
+    "homepage": "https://github.com/tlalani/firefighter#readme"
+}
