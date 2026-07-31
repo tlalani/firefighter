@@ -1,0 +1,11 @@
+.center-grid {
+    display: grid;
+    grid-template-columns: auto;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.button-container {
+    display: flex;
+    gap: 1rem;
+}

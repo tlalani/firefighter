@@ -1,12 +1,18 @@
 import { Board } from "../board/board.js";
 import { Edge, EdgeType, WallEdge, DoorEdge } from "../board/edge.js";
-import { tileID, roomID, edgeID, TileID, EntityID, PlayerID, entityID } from "../board/ids.js";
-import { Entity } from "../entities/entity.js";
+import { tileID, roomID, edgeID, TileID, EntityID, PlayerID, entityID, playerID } from "../board/ids.js";
+import { Entity, EntityType } from "../entities/entity.js";
 import { GameState } from "../gamestate/gamestate.js";
 import { Player } from "../player/player.js";
 import { getDirection, opposite } from "./queries/direction.js";
 
-export function generateBoard(width: number, height: number, tiles: { x: number, y: number, room: number, id: number }[], edges: { tileA: number, tileB: number, id: number, type: string }[]) {
+
+export interface SetupTiles { x: number, y: number, room: number, id: number };
+export interface SetupEdge { tileA: number, tileB: number, id: number, type: string, open?: boolean };
+export interface SetupEntity { id: number, tileID: number, type: string };
+export interface SetupPlayer { id: number, tileID: number | null, name: string };
+
+export function generateBoard(width: number, height: number, tiles: { x: number, y: number, room: number, id: number }[], edges: { tileA: number, tileB: number, id: number, type: string, open?: boolean }[]) {
     const board: Board = {
         width: width,
         height: height,
@@ -15,10 +21,10 @@ export function generateBoard(width: number, height: number, tiles: { x: number,
             const obj: Edge = { id: edgeID(e.id), tileA: e.tileA as TileID, tileB: e.tileB as TileID, type: e.type as EdgeType, isBroken: false };
 
             if (e.type === EdgeType.WALL) {
-                (obj as WallEdge)['counters'] = 0;
+                (obj as WallEdge).counters = 0;
                 return obj as WallEdge
             } else {
-                (obj as DoorEdge)['open'] = false;
+                (obj as DoorEdge).open = e.open ?? false;
                 return obj as DoorEdge
             }
         }).sort((a, b) => a.tileA - b.tileA || a.tileB - b.tileB)
@@ -38,21 +44,21 @@ export function generateBoard(width: number, height: number, tiles: { x: number,
     return board;
 }
 
-export function generateGameState(width: number, height: number, tiles: { x: number, y: number, room: number, id: number }[], edges: { tileA: number, tileB: number, id: number, type: string }[], entities: Entity[], players: Player[]) {
+export function generateGameState(width: number, height: number, tiles: { x: number, y: number, room: number, id: number }[], edges: { tileA: number, tileB: number, id: number, type: string, open?: boolean }[], entities: { id: number, tileID: number, type: string }[], players: { id: number, tileID: number, name: string }[]) {
     const board = generateBoard(width, height, tiles, edges);
-    entities.forEach(entity => board.tiles.find(tile => tile.id === entity.tileID)!.entity = entity.id);
+    entities.forEach(entity => board.tiles.find(tile => tile.id === tileID(entity.tileID))!.entity = entityID(entity.id));
     const lastEntityID = entities.sort((a, b) => a.id - b.id)[-1]?.id;
     const state: GameState = {
         board,
         entities: entities.reduce<Record<EntityID, Entity>>((obj, entity) => {
-            obj[entity.id] = entity;
+            obj[entityID(entity.id)] = { id: entityID(entity.id), type: entity.type as EntityType, tileID: tileID(entity.tileID) };
             return obj
         }, {}),
         players: players.reduce<Record<PlayerID, Player>>((obj, player) => {
-            obj[player.id] = player;
+            obj[playerID(player.id)] = { id: playerID(player.id), tileID: tileID(player.tileID), currentAP: 0, carryingEntityID: null, turnStartAP: 4, name: player.name };
             return obj;
         }, {}),
-        currentPlayerTurn: players[0]!.id,
+        currentPlayerTurn: playerID(players[0]!.id),
         nextEntityID: entityID((lastEntityID ?? 0) + 1)
     };
 

@@ -518,7 +518,8 @@
             "id": 6,
             "tileA": 7,
             "tileB": 17,
-            "type": "DOOR"
+            "type": "DOOR",
+            "open": true
         },
         {
             "id": 7,
@@ -584,7 +585,8 @@
             "id": 17,
             "tileA": 31,
             "tileB": 32,
-            "type": "DOOR"
+            "type": "DOOR",
+            "open": true
         },
         {
             "id": 18,
@@ -674,7 +676,8 @@
             "id": 32,
             "tileA": 49,
             "tileB": 50,
-            "type": "DOOR"
+            "type": "DOOR",
+            "open": true
         },
         {
             "id": 33,
@@ -716,13 +719,14 @@
             "id": 39,
             "tileA": 63,
             "tileB": 73,
-            "type": "DOOR"
+            "type": "WALL"
         },
         {
             "id": 40,
             "tileA": 64,
             "tileB": 74,
-            "type": "WALL"
+            "type": "DOOR",
+            "open": true
         },
         {
             "id": 41,
@@ -809,5 +813,71 @@
             "type": "DOOR"
         }
     ],
-    "fire": []
+    "entities": [
+        {
+            "id": 1,
+            "type": "FIRE",
+            "tileID": 23
+        },
+        {
+            "id": 2,
+            "type": "FIRE",
+            "tileID": 23
+        },
+        {
+            "id": 3,
+            "type": "FIRE",
+            "tileID": 33
+        },
+        {
+            "id": 4,
+            "type": "FIRE",
+            "tileID": 34
+        },
+        {
+            "id": 5,
+            "type": "FIRE",
+            "tileID": 35
+        },
+        {
+            "id": 6,
+            "type": "FIRE",
+            "tileID": 36
+        },
+        {
+            "id": 7,
+            "type": "FIRE",
+            "tileID": 45
+        },
+        {
+            "id": 8,
+            "type": "FIRE",
+            "tileID": 57
+        },
+        {
+            "id": 9,
+            "type": "FIRE",
+            "tileID": 58
+        },
+        {
+            "id": 10,
+            "type": "FIRE",
+            "tileID": 67
+        },
+        {
+            "id": 11,
+            "type": "POI",
+            "tileID": 25
+        },
+        {
+            "id": 12,
+            "type": "POI",
+            "tileID": 52
+        },
+        {
+            "id": 13,
+            "type": "POI",
+            "tileID": 59
+        }
+    ]
 }

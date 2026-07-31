@@ -1,0 +1,39 @@
+.tile {
+  border: 1px solid black;
+
+  &.room1 {
+    background-color: rgba(255, 0, 0, 0.5);
+  }
+
+  &.room2 {
+    background-color: rgba(255, 165, 0, 0.6);
+  }
+
+  &.room3 {
+    background-color: rgba(255, 255, 0, 0.5);
+  }
+
+  &.room4 {
+    background-color: rgba(135, 206, 250, 0.6)
+  }
+
+  &.room5 {
+    background-color: rgba(138, 43, 236, 0.6);
+  }
+
+  &.room6 {
+    background-color: rgba(102, 30, 30, 0.6)
+  }
+
+  &.room7 {
+    background-color: rgba(26, 168, 168, 0.6)
+  }
+
+  &.room8 {
+    background-color: rgb(136, 129, 129, 0.6)
+  }
+
+  &.room9 {
+    background-color: rgba(144, 238, 144, 0.6);
+  }
+}
