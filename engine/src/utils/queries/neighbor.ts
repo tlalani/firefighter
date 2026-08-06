@@ -15,6 +15,6 @@ export function getNeighborTile(state: GameState, tileID: TileID, dir: Direction
 export function getNeighborEntity(state: GameState, tileID: TileID, dir: Direction): Entity | null {
     const neighbor = getNeighborTile(state, tileID, dir);
     if (!neighbor || !neighbor.entity) return null;
-
+    if (!state.entities) throw new Error('Entities not initialized');
     return state.entities[neighbor.entity]!
 }

@@ -20,7 +20,7 @@ export function canMove(state: GameState, tileID: TileID, dir: Direction): boole
 }
 
 export function getAvailableActionsByDirection(state: GameState, dir: Direction) {
-
+    if (!state.players || !state.currentPlayerTurn) throw new Error("Players not initialized");
     const possibleActions: AvailableAction[] = [];
 
     const player = state.players[state.currentPlayerTurn]!;
@@ -33,10 +33,11 @@ export function getAvailableActionsByDirection(state: GameState, dir: Direction)
 }
 
 export function getAvailableActionsOnTile(state: GameState) {
+    if (!state.players || !state.currentPlayerTurn) throw new Error("Players not initialized");
     const possibleActions: AvailableAction[] = [];
 
     const player = state.players[state.currentPlayerTurn]!;
-
+    
     possibleActions.push(..._getExtinguishActionsOnTile(state, player));
     possibleActions.push(..._getPickupAndDropActionOnTile(state, player));
 
@@ -44,6 +45,8 @@ export function getAvailableActionsOnTile(state: GameState) {
 }
 
 function _getMovementActionInDirection(state: GameState, player: Player, dir: Direction): AvailableAction[] {
+    if (!player.tileID) throw new Error("Player not on a tile");
+
     if (canMove(state, player.tileID, dir)) {
         const fireOnNeighbor = getNeighborEntity(state, player.tileID, dir)?.type === EntityType.FIRE;
         const isPlayerCarryingSomething = !!player.carryingEntityID;
@@ -62,6 +65,8 @@ function _getMovementActionInDirection(state: GameState, player: Player, dir: Di
 }
 
 function _getWallOrDoorActionInDirection(state: GameState, player: Player, dir: Direction): AvailableAction[] {
+    if (!player.tileID) throw new Error("Player not on a tile");
+
     const edge = getEdge(state, player.tileID, dir);
     if (edge) {
         if (edge.type === EdgeType.WALL && edge.counters < 2) return [{ action: Action.Chop, direction: dir }];
@@ -74,6 +79,7 @@ function _getWallOrDoorActionInDirection(state: GameState, player: Player, dir: 
 }
 
 function _getExtinguisActionsInDirection(state: GameState, player: Player, dir: Direction): AvailableAction[] {
+    if (!player.tileID) throw new Error("Player not on a tile");
     const entityOnNeighbor = getNeighborEntity(state, player.tileID, dir);
     if (!entityOnNeighbor) return [];
 
@@ -91,6 +97,7 @@ function _getExtinguisActionsInDirection(state: GameState, player: Player, dir: 
 }
 
 function _getPickupAndDropActionOnTile(state: GameState, player: Player) {
+    if (!player.tileID) throw new Error("Player not on a tile");
     const isPlayerCarryingSomething = !!player.carryingEntityID;
     if (isPlayerCarryingSomething) {
         return [{ action: Action.DropCarrying }];
@@ -103,7 +110,7 @@ function _getPickupAndDropActionOnTile(state: GameState, player: Player) {
 }
 
 function _getExtinguishActionsOnTile(state: GameState, player: Player): AvailableAction[] {
-
+    if (!player.tileID) throw new Error("Player not on a tile");
     const entityOnTile = getEntity(state, player.tileID);
     if (entityOnTile) {
         if (entityOnTile.type === EntityType.FIRE) {
