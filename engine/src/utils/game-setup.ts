@@ -10,7 +10,7 @@ import { getDirection, opposite } from "./queries/direction.js";
 export interface SetupTiles { x: number, y: number, room: number, id: number };
 export interface SetupEdge { tileA: number, tileB: number, id: number, type: string, open?: boolean };
 export interface SetupEntity { id: number, tileID: number, type: string };
-export interface SetupPlayer { id: number, tileID: number | null, name: string };
+export interface SetupPlayer { id: number, tileID: number | undefined, name: string };
 
 export function generateBoard(width: number, height: number, tiles: { x: number, y: number, room: number, id: number }[], edges: { tileA: number, tileB: number, id: number, type: string, open?: boolean }[]) {
     const board: Board = {
@@ -44,7 +44,7 @@ export function generateBoard(width: number, height: number, tiles: { x: number,
     return board;
 }
 
-export function generateGameState(width: number, height: number, tiles: { x: number, y: number, room: number, id: number }[], edges: { tileA: number, tileB: number, id: number, type: string, open?: boolean }[], entities: { id: number, tileID: number, type: string }[], players: { id: number, tileID: number, name: string }[]) {
+export function generateGameState(width: number, height: number, tiles: { x: number, y: number, room: number, id: number }[], edges: { tileA: number, tileB: number, id: number, type: string, open?: boolean }[], entities: { id: number, tileID: number, type: string }[], players: { id: number, tileID?: number, name: string }[], startupTiles: number[]) {
     const board = generateBoard(width, height, tiles, edges);
     entities.forEach(entity => board.tiles.find(tile => tile.id === tileID(entity.tileID))!.entity = entityID(entity.id));
     const lastEntityID = entities.sort((a, b) => a.id - b.id)[-1]?.id;
@@ -55,11 +55,12 @@ export function generateGameState(width: number, height: number, tiles: { x: num
             return obj
         }, {}),
         players: players.reduce<Record<PlayerID, Player>>((obj, player) => {
-            obj[playerID(player.id)] = { id: playerID(player.id), tileID: tileID(player.tileID), currentAP: 0, carryingEntityID: null, turnStartAP: 4, name: player.name };
+            obj[playerID(player.id)] = { id: playerID(player.id), tileID: player.tileID ? tileID(player.tileID) : null, currentAP: 0, carryingEntityID: null, turnStartAP: 4, name: player.name };
             return obj;
         }, {}),
-        currentPlayerTurn: playerID(players[0]!.id),
-        nextEntityID: entityID((lastEntityID ?? 0) + 1)
+        currentPlayerTurn: players?.length > 0 ? playerID(players[0]!.id) : null,
+        nextEntityID: entityID((lastEntityID ?? 0) + 1),
+        startupTiles: startupTiles.map(tileid => tileID(tileid))
     };
 
     return state;

@@ -10,10 +10,12 @@ export function hasEntity(state: GameState, tileID: TileID): boolean {
 
 export function getEntity(state: GameState, tileID: TileID): Entity {
     const tile = getTile(state, tileID);
+    if (!state.entities) throw new Error("Entities not Initialized");
     return state.entities[tile.entity!]!;
 }
 
 export function isCarryable(state: GameState, entityID: EntityID) {
+    if (!state.entities) throw new Error("Entities not initialized");
     const entity = state.entities[entityID]!;
     switch (entity.type) {
         case EntityType.POI:
@@ -26,6 +28,7 @@ export function isCarryable(state: GameState, entityID: EntityID) {
 }
 
 export function getPlayerEntity(state: GameState, playerID: PlayerID) {
+    if (!state.players || !state.entities) throw new Error("Players or Entities not initialized");
     const player = state.players[playerID]!;
 
     if (player.carryingEntityID) {

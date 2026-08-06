@@ -6,6 +6,7 @@ import { whichPlayerCarryingEntity } from "../queries/player.js";
 import { getTile } from "../queries/tile.js";
 
 export function removeEntity(state: GameState, entityID: EntityID) {
+    if (!state.entities) throw new Error("Entities not initialized");
     const entity = state.entities[entityID]!;
     if (entity.tileID) {
         const tile = getTile(state, entity.tileID);
@@ -21,6 +22,7 @@ export function removeEntity(state: GameState, entityID: EntityID) {
 }
 
 export function addEntity(state: GameState, type: EntityType, tileID: TileID) {
+    if (!state.entities) throw new Error("Entities not initialized");
     const entity: Entity = { id: state.nextEntityID, type, tileID: tileID };
     state.nextEntityID = entityID(state.nextEntityID + 1);
     state.entities[entity.id] = entity;
@@ -28,13 +30,14 @@ export function addEntity(state: GameState, type: EntityType, tileID: TileID) {
 }
 
 export function pickupEntity(state: GameState, playerID: PlayerID, entityID: EntityID) {
+    if (!state.players || !state.entities) throw new Error("players or entities not initialized");
     const player = state.players[playerID]!
     const entity = state.entities[entityID];
-
     if (player.carryingEntityID || !entity || player.tileID !== entity.tileID) {
         return;
     }
-
+    if (!entity.tileID) throw new Error("Entity has no tile ID");
+    
     if (isCarryable(state, entityID)) {
         player.carryingEntityID = entityID;
         const tile = getTile(state, entity.tileID)
@@ -44,7 +47,9 @@ export function pickupEntity(state: GameState, playerID: PlayerID, entityID: Ent
 }
 
 export function dropEntity(state: GameState, playerID: PlayerID) {
+    if (!state.players) throw new Error("players not initialized");
     const player = state.players[playerID]!;
+    if (!player.tileID) throw new Error("Player not on a tile");
     const entityOnTile = getEntity(state, player.tileID);
     if (!player.carryingEntityID || entityOnTile) return;
 

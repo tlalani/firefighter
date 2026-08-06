@@ -10,7 +10,9 @@ import { Action, ActionCost } from "./actions/actions.model.js";
 import { dropEntity, pickupEntity, removeEntity } from "./actions/entity.js";
 
 export function performAction(state: GameState, action: Action, dir: Direction | null) {
+    if (!state.players || !state.currentPlayerTurn) throw new Error("players not initialized");
     const player = state.players[state.currentPlayerTurn]!;
+    if (!player.tileID) throw new Error("Player not on a tile");
     switch (action) {
         case Action.Move:
         case Action.MoveFire:
@@ -51,6 +53,7 @@ export function performAction(state: GameState, action: Action, dir: Direction |
 }
 
 export function chopEdge(state: GameState, player: Player, dir: Direction) {
+    if (!player.tileID) throw new Error("Player not on a tile");
     const edge = getEdge(state, player.tileID, dir)!;
     if ('counters' in edge && edge.counters < 2) {
         edge.counters += 1;
@@ -64,6 +67,7 @@ export function chopEdge(state: GameState, player: Player, dir: Direction) {
 }
 
 export function openOrCloseDoor(state: GameState, action: Action, player: Player, dir: Direction) {
+    if (!player.tileID) throw new Error("Player not on a tile");
     const edge = getEdge(state, player.tileID, dir)!;
     if ('open' in edge) {
         if (edge.open && action === Action.CloseDoor) {
@@ -80,6 +84,7 @@ export function openOrCloseDoor(state: GameState, action: Action, player: Player
 }
 
 export function extinguishFire(state: GameState, player: Player, dir: Direction | null) {
+    if (!player.tileID) throw new Error("Player not on a tile");
     if (!dir && hasEntity(state, player.tileID)) {
         const entity = getEntity(state, player.tileID);
         if (entity.type === EntityType.FIRE) {
@@ -97,6 +102,7 @@ export function extinguishFire(state: GameState, player: Player, dir: Direction 
 }
 
 export function fireToSmoke(state: GameState, player: Player, dir: Direction | null) {
+    if (!player.tileID) throw new Error("Player not on a tile");
     if (!dir && hasEntity(state, player.tileID)) {
         const entity = getEntity(state, player.tileID);
         if (entity.type === EntityType.FIRE) {
@@ -114,6 +120,7 @@ export function fireToSmoke(state: GameState, player: Player, dir: Direction | n
 }
 
 export function extinguishSmoke(state: GameState, player: Player, dir: Direction | null) {
+    if (!player.tileID) throw new Error("Player not on a tile");
     if (!dir && hasEntity(state, player.tileID)) {
         const entity = getEntity(state, player.tileID);
         if (entity.type === EntityType.SMOKE) {
@@ -131,6 +138,7 @@ export function extinguishSmoke(state: GameState, player: Player, dir: Direction
 }
 
 export function pickupFromGround(state: GameState, player: Player) {
+    if (!player.tileID) throw new Error("Player not on a tile");
     const entity = getEntity(state, player.tileID)
     if (entity) pickupEntity(state, player.id, entity.id);
 }
