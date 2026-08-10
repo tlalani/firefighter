@@ -1,5 +1,5 @@
 :root {
-    --tile-size: 100px; 
+    --tile-size: 100px;
     --color-9: #5B9A4A;
     --color-1: #4D8FC4;
     --color-2: #E5B83F;
@@ -9,11 +9,12 @@
     --color-6: #3F9990;
     --color-7: #C66A83;
     --color-8: #8A6748;
-    --highlight-color: #fff8e79f;
+    --highlight-color: #fff8e7ca;
     --darkened-color: #000000;
 }
 
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
 }

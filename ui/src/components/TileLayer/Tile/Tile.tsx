@@ -9,14 +9,10 @@ function GameTile({ tile }: TileProps) {
   const tileClass = classNames(
     "tile",
     `room-${tile.room}`,
-    {
-      'highlighted': tile.room === 9,
-      'darkened': tile.room !== 9
-    }
   )
   return (
     <>
-      <div className={tileClass} key={tile.id}>{tile.id}</div>
+      <div className={tileClass} key={tile.id}>{tile.x},{tile.y}</div>
     </>
   )
 }
