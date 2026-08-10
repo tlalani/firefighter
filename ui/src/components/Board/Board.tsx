@@ -1,4 +1,7 @@
-import GameTile from '../Tile/Tile';
+import EdgeLayer from '../EdgeLayer/EdgeLayer';
+import EntityLayer from '../EntityLayer/EntityLayer';
+import HighlightLayer from '../HighlightLayer/HighlightLayer';
+import TileLayer from '../TileLayer/TileLayer';
 import './Board.css'
 import { generateBoard, board1Easy } from '@firefighter/engine';
 const { width, height, tiles, edges } = board1Easy;
@@ -9,7 +12,10 @@ function Board() {
   return (
     <>
       <div className="board">
-        {board.tiles.sort((a, b) => a.id - b.id).map(tile => <GameTile key={tile.id} tile={tile}></GameTile>)}
+        <TileLayer tiles={board.tiles}></TileLayer>
+        <EdgeLayer></EdgeLayer>
+        <HighlightLayer></HighlightLayer>
+        <EntityLayer></EntityLayer>
       </div>
     </>
   )
