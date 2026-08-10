@@ -1,0 +1,57 @@
+.tile {
+    position: relative;
+    box-sizing: border-box;
+    width: var(--tile-size);
+    height: var(--tile-size);
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.highlighted::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  box-sizing: border-box;
+  border: 5px solid whitesmoke;
+  background-color: var(--highlight-color);
+}
+
+.darkened::after {
+    content: '';
+    position: absolute;
+    display: block;
+    height: calc(var(--tile-size));
+    width: calc(var(--tile-size));
+    background-color: var(--darkened-color);
+    opacity: 0.6;
+    top: 0;
+    left: 0;
+}
+
+.room-1 {
+    background-color: var(--color-1);
+}
+.room-2 {
+    background-color: var(--color-2);
+}
+.room-3 {
+    background-color: var(--color-3);
+}
+.room-4 {
+    background-color: var(--color-4);
+}
+.room-5 {
+    background-color: var(--color-5);
+}
+.room-6 {
+    background-color: var(--color-6);
+}
+.room-9 {
+    background-color: var(--color-9);
+}
+.room-7 {
+    background-color: var(--color-7);
+}
+.room-8 {
+    background-color: var(--color-8);
+}

@@ -14,5 +14,8 @@
     "bugs": {
         "url": "https://github.com/tlalani/firefighter/issues"
     },
-    "homepage": "https://github.com/tlalani/firefighter#readme"
+    "homepage": "https://github.com/tlalani/firefighter#readme",
+    "dependencies": {
+        "classnames": "^2.5.1"
+    }
 }

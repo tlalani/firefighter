@@ -1,0 +1,5 @@
+.board {
+    display: grid;
+    grid-template-columns: repeat(10, var(--tile-size));
+    align-self: center;
+}
