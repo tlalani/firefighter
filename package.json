@@ -5,6 +5,10 @@
         "engine",
         "ui"
     ],
+    "scripts": {
+        "build-engine": "npm run build -w @firefighter/engine",
+        "dev-ui": "npm run dev -w ui"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/tlalani/firefighter.git"
@@ -14,5 +18,8 @@
     "bugs": {
         "url": "https://github.com/tlalani/firefighter/issues"
     },
-    "homepage": "https://github.com/tlalani/firefighter#readme"
+    "homepage": "https://github.com/tlalani/firefighter#readme",
+    "dependencies": {
+        "classnames": "^2.5.1"
+    }
 }

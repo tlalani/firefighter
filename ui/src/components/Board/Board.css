@@ -1,0 +1,30 @@
+.board {
+    position: relative;
+    align-self: center;
+    display: grid;
+    width: calc(10 * var(--tile-size));
+    height: calc(8 * var(--tile-size));
+    box-shadow: var(--shadow);
+}
+
+.tile-layer,
+.highlight-layer {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+}
+
+.tile-layer {
+    z-index: 1;
+}
+
+.highlight-layer {
+    z-index: 2;
+    pointer-events: none;
+}
+
+.edge-layer {
+    z-index: 3
+}

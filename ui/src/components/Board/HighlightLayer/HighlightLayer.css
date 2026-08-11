@@ -1,0 +1,27 @@
+.highlighted::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    box-sizing: border-box;
+    border: 5px solid rgb(255, 255, 255);
+    background-color: var(--highlight-color);
+    opacity: 0.8
+}
+
+.darkened::after {
+    content: '';
+    position: absolute;
+    display: block;
+    height: calc(var(--tile-size));
+    width: calc(var(--tile-size));
+    background-color: var(--darkened-color);
+    opacity: 0.6;
+    top: 0;
+    left: 0;
+}
+
+.highlight-layer div {
+    position: relative;
+    width: var(--tile-size);
+    height: var(--tile-size);
+}

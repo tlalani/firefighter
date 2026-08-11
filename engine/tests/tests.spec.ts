@@ -11,8 +11,9 @@ import { getEntity } from "../src/utils/queries/entity.js";
 import { pickupFromGround } from "../src/utils/actions.js";
 import { EntityType } from "../src/entities/entity.js";
 import { POIEntity } from "../src/entities/poi.js";
-import { generateGameState } from "../src/utils/game-setup.js";
+import { generateGameState, SetupPlayer } from "../src/utils/game-setup.js";
 import { GameState } from "../src/gamestate/gamestate.js";
+import { cycleToNextPlayer } from "../src/utils/actions/player.js";
 
 const width = 1;
 const height = 2;
@@ -25,19 +26,15 @@ const edges = [
     { id: edgeID(1), tileA: tileID(1), tileB: tileID(2), type: EdgeType.WALL },
 ]
 
-const entities = [
-    { id: entityID(1), tileID: tileID(1), type: EntityType.FIRE }
-];
-
-const players = [{ id: playerID(1), tileID: tileID(2), currentAP: 4, turnStartAP: 4, carryingEntityID: null }];
+const players: SetupPlayer[] = [{ id: playerID(1), tileID: tileID(2), name: "Jason" }];
 
 describe('boardGen and Wall Chop', () => {
 
-    const gameState: GameState = generateGameState(width, height, tiles, edges, [], players);
-
+    const gameState: GameState = generateGameState({ width, height, tiles, edges, entities: [], startupTiles: [], players });
+    gameState.currentPlayerTurn = playerID(1);
     it('should generate the correct board', () => {
-        const playerTileID = gameState.players[gameState.currentPlayerTurn]!.tileID
-        const tile = getTile(gameState, playerTileID);
+        const playerTileID = gameState.players![gameState.currentPlayerTurn!]!.tileID
+        const tile = getTile(gameState, playerTileID!);
 
         //printBoard(gameState.board);
 
@@ -46,7 +43,7 @@ describe('boardGen and Wall Chop', () => {
 
     it('should get chop action in Direction', () => {
         gameState.board.edges[0]! = { id: edgeID(1), tileA: tileID(1), tileB: tileID(2), type: EdgeType.WALL, counters: 0, isBroken: false }
-
+        cycleToNextPlayer(gameState);
         let actions = getAvailableActionsByDirection(gameState, Direction.N);
         expect(actions.length).toBe(1);
         expect(actions[0]?.action).toBe(Action.Chop);
@@ -61,6 +58,7 @@ describe('boardGen and Wall Chop', () => {
 
         (gameState.board.edges[0]! as DoorEdge).open = true;
         actions = getAvailableActionsByDirection(gameState, Direction.N);
+
         expect(actions.length).toBe(2);
         expect(actions.find(action => action.action === Action.Move)).toBeTruthy();
         expect(actions.find(action => action.action === Action.CloseDoor)).toBeTruthy();
@@ -69,6 +67,7 @@ describe('boardGen and Wall Chop', () => {
     it('should get walk action when wall broken', () => {
         gameState.board.edges[0]! = { id: edgeID(1), tileA: tileID(1), tileB: tileID(2), type: EdgeType.WALL, counters: 2, isBroken: true }
         let actions = getAvailableActionsByDirection(gameState, Direction.N);
+
         expect(actions.length).toBe(1);
         expect(actions[0]?.action).toBe(Action.Move)
     });
@@ -87,7 +86,12 @@ describe('boardGen and Wall Chop', () => {
 });
 
 describe('Fire, Smoke and carryables', () => {
-    const gameState: GameState = generateGameState(width, height, tiles, [], entities, players);
+    const entities = [
+        { id: entityID(1), tileID: tileID(1), type: EntityType.FIRE }
+    ];
+    const gameState: GameState = generateGameState({ width, height, tiles, edges: [], startupTiles: [], entities, players })
+    gameState.currentPlayerTurn = playerID(1);
+    cycleToNextPlayer(gameState);
 
     it('should get all actions when player AP > 3', () => {
         let actions = getAvailableActionsByDirection(gameState, Direction.N);
@@ -98,7 +102,7 @@ describe('Fire, Smoke and carryables', () => {
     });
 
     it('should only get FireToSmoke if player AP < 2', () => {
-        gameState.players[gameState.currentPlayerTurn]!.currentAP = 1;
+        gameState.players![gameState.currentPlayerTurn!]!.currentAP = 1;
         let actions = getAvailableActionsByDirection(gameState, Direction.N);
         expect(actions.length).toBe(1);
         expect(actions[0]?.action).toBe(Action.FireToSmoke);
@@ -106,7 +110,7 @@ describe('Fire, Smoke and carryables', () => {
 
     it('should remove entity from in front of player', () => {
         removeEntity(gameState, entityID(1));
-        let neighbor = getNeighborEntity(gameState, gameState.players[playerID(1)]!.tileID, Direction.N);
+        let neighbor = getNeighborEntity(gameState, gameState.players![playerID(1)]!.tileID!, Direction.N);
         expect(neighbor).toBeFalsy();
     });
 
@@ -118,7 +122,7 @@ describe('Fire, Smoke and carryables', () => {
     });
 
     it('should give tile actions', () => {
-        gameState.players[gameState.currentPlayerTurn]!.currentAP = 4;
+        gameState.players![gameState.currentPlayerTurn!]!.currentAP = 4;
         let actions = getAvailableActionsOnTile(gameState);
         expect(actions.length).toBe(2);
         expect(actions.find(action => action.direction)).toBeFalsy();
@@ -127,27 +131,32 @@ describe('Fire, Smoke and carryables', () => {
     });
 
     it('should give pickup and drop actions when pickupable item', () => {
-        gameState.entities[entityID(1)] = ({ id: entityID(1), tileID: tileID(2), type: EntityType.POI, revealed: true, actual: 'Sonya' } as POIEntity);
+        gameState.entities![entityID(1)] = ({ id: entityID(1), tileID: tileID(2), type: EntityType.POI, revealed: true, actual: 'Sonya' } as POIEntity);
         let actions = getAvailableActionsOnTile(gameState);
         expect(actions.length).toBe(1);
         expect(actions[0]?.action).toBe(Action.PickupFromGround)
     })
 
     it('should pickup carryable', () => {
-        pickupFromGround(gameState, gameState.players[gameState.currentPlayerTurn]!);
+        pickupFromGround(gameState, gameState.players![gameState.currentPlayerTurn!]!);
         let actions = getAvailableActionsOnTile(gameState);
         expect(actions.length).toBe(1);
         expect(actions[0]?.action).toBe(Action.DropCarrying);
-        expect(gameState.players[gameState.currentPlayerTurn]?.carryingEntityID).toBeTruthy();
-        expect(getTile(gameState, gameState.players[gameState.currentPlayerTurn]!.tileID).entity).toBeFalsy();
+        expect(gameState.players![gameState.currentPlayerTurn!]?.carryingEntityID).toBeTruthy();
+        expect(getTile(gameState, gameState.players![gameState.currentPlayerTurn!]!.tileID!).entity).toBeFalsy();
     });
 
     it('should not be able to move fire when carrying entity', () => {
-        const ent = [...entities, ({ id: entityID(2), tileID: tileID(2), type: EntityType.POI, revealed: true, actual: 'Sonya' } as POIEntity)]
-        const gameState: GameState = generateGameState(width, height, tiles, [], ent, players);
-        pickupFromGround(gameState, gameState.players[gameState.currentPlayerTurn]!);
+        const ent = [...entities, { id: 2, tileID: 2, type: EntityType.POI }];
+        const gameState: GameState = generateGameState({ width, height, tiles, edges: [], startupTiles: [], entities: ent, players });
+        const entity = (gameState.entities![entityID(2)] as POIEntity);
+        entity.revealed = true;
+        entity.actual = "Sonya";
+        cycleToNextPlayer(gameState);
+        pickupFromGround(gameState, gameState.players![gameState.currentPlayerTurn!]!);
 
         let actions = getAvailableActionsByDirection(gameState, Direction.N);
+        console.log(actions);
         expect(actions.length).toBe(2);
         expect(actions.find(action => action.action === Action.MoveVictimOrHazmat)).toBeFalsy();
     })
