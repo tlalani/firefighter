@@ -57,9 +57,13 @@ export default function DoorEdge({ edge, tiles }: EdgeProps) {
         </>
     } else {
         if (sameX) {
+            x1 += 0.03
+            y1 += 0.005
             y2 -= 0.4;
             x2 -= 0.2;
         } else {
+            x1 += 0.003
+            y1 += 0.03
             x2 -= 0.4;
             y2 -= 0.2
         }

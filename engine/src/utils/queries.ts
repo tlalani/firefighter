@@ -37,7 +37,7 @@ export function getAvailableActionsOnTile(state: GameState) {
     const possibleActions: AvailableAction[] = [];
 
     const player = state.players[state.currentPlayerTurn]!;
-    
+
     possibleActions.push(..._getExtinguishActionsOnTile(state, player));
     possibleActions.push(..._getPickupAndDropActionOnTile(state, player));
 
@@ -69,8 +69,8 @@ function _getWallOrDoorActionInDirection(state: GameState, player: Player, dir: 
 
     const edge = getEdge(state, player.tileID, dir);
     if (edge) {
-        if (edge.type === EdgeType.WALL && edge.counters < 2) return [{ action: Action.Chop, direction: dir }];
-        else if (edge.type === EdgeType.DOOR && !edge.isBroken) {
+        if (edge.type === EdgeType.WALL && edge.counters < 2 && player.currentAP >= ActionCost.Chop) return [{ action: Action.Chop, direction: dir }];
+        else if (edge.type === EdgeType.DOOR && !edge.isBroken && player.currentAP >= ActionCost.OpenDoor) {
             if (edge.open) return [{ action: Action.CloseDoor, direction: dir }];
             else return [{ action: Action.OpenDoor, direction: dir }];
         }
@@ -82,7 +82,7 @@ function _getExtinguisActionsInDirection(state: GameState, player: Player, dir: 
     if (!player.tileID) throw new Error("Player not on a tile");
     const entityOnNeighbor = getNeighborEntity(state, player.tileID, dir);
     if (!entityOnNeighbor) return [];
-
+    if (!canMove(state, player.tileID, dir)) return []
     switch (entityOnNeighbor.type) {
         case EntityType.FIRE:
             if (player.currentAP < ActionCost.FireToSmoke) return [];

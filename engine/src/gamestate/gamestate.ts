@@ -10,4 +10,5 @@ export interface GameState {
     currentPlayerTurn: PlayerID | null;
     nextEntityID: EntityID;
     startupTiles: TileID[];
+    playerTurnOrder: PlayerID[]
 }

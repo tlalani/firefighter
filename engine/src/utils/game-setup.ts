@@ -7,10 +7,11 @@ import { Player } from "../player/player.js";
 import { getDirection, opposite } from "./queries/direction.js";
 
 
-export interface SetupTiles { x: number, y: number, room: number, id: number };
+export interface SetupTile { x: number, y: number, room: number, id: number };
 export interface SetupEdge { tileA: number, tileB: number, id: number, type: string, open?: boolean };
 export interface SetupEntity { id: number, tileID: number, type: string };
-export interface SetupPlayer { id: number, tileID: number | undefined, name: string };
+export interface SetupPlayer { id: number, name: string, tileID?: number };
+export enum Difficulty { EASY = "EASY", HARD = "HARD" };
 
 export function generateBoard(width: number, height: number, tiles: { x: number, y: number, room: number, id: number }[], edges: { tileA: number, tileB: number, id: number, type: string, open?: boolean }[]) {
     const board: Board = {
@@ -44,7 +45,7 @@ export function generateBoard(width: number, height: number, tiles: { x: number,
     return board;
 }
 
-export function generateGameState(width: number, height: number, tiles: { x: number, y: number, room: number, id: number }[], edges: { tileA: number, tileB: number, id: number, type: string, open?: boolean }[], entities: { id: number, tileID: number, type: string }[], players: { id: number, tileID?: number, name: string }[], startupTiles: number[]) {
+export function generateGameState({ width, height, tiles, edges, startupTiles, players, entities }: { width: number, height: number, tiles: SetupTile[], edges: SetupEdge[], startupTiles: number[], entities: SetupEntity[], players: SetupPlayer[] }) {
     const board = generateBoard(width, height, tiles, edges);
     entities.forEach(entity => board.tiles.find(tile => tile.id === tileID(entity.tileID))!.entity = entityID(entity.id));
     const lastEntityID = entities.sort((a, b) => a.id - b.id)[-1]?.id;
@@ -60,7 +61,8 @@ export function generateGameState(width: number, height: number, tiles: { x: num
         }, {}),
         currentPlayerTurn: players?.length > 0 ? playerID(players[0]!.id) : null,
         nextEntityID: entityID((lastEntityID ?? 0) + 1),
-        startupTiles: startupTiles.map(tileid => tileID(tileid))
+        startupTiles: startupTiles.map(tileid => tileID(tileid)),
+        playerTurnOrder: players.map(p => playerID(p.id))
     };
 
     return state;

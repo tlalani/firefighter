@@ -5,6 +5,10 @@
         "engine",
         "ui"
     ],
+    "scripts": {
+        "build-engine": "npm run build -w @firefighter/engine",
+        "dev-ui": "npm run dev -w ui"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/tlalani/firefighter.git"

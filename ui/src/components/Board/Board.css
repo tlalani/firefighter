@@ -4,6 +4,7 @@
     display: grid;
     width: calc(10 * var(--tile-size));
     height: calc(8 * var(--tile-size));
+    box-shadow: var(--shadow);
 }
 
 .tile-layer,

@@ -1,7 +1,7 @@
-import EdgeLayer from '../EdgeLayer/EdgeLayer';
-import EntityLayer from '../EntityLayer/EntityLayer';
-import HighlightLayer from '../HighlightLayer/HighlightLayer';
-import TileLayer from '../TileLayer/TileLayer';
+import EdgeLayer from './EdgeLayer/EdgeLayer';
+import EntityLayer from './EntityLayer/EntityLayer';
+import HighlightLayer from './HighlightLayer/HighlightLayer';
+import TileLayer from './TileLayer/TileLayer';
 import './Board.css'
 import { generateBoard, board1Easy, type TileID } from '@firefighter/engine';
 const { width, height, tiles, edges } = board1Easy;
