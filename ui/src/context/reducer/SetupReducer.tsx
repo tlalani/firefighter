@@ -1,4 +1,4 @@
-import { Difficulty, playerID, type SetupPlayer } from "@firefighter/engine";
+import { board1Easy, Difficulty, generateBoard, playerID, type SetupPlayer, tileID } from "@firefighter/engine";
 import type { SetupAction } from "./Actions";
 import type { SetupState } from "../SetupContext";
 
@@ -29,7 +29,30 @@ export function gameSetupReducer(state: SetupState, action: SetupAction): SetupS
                 ...state,
                 gamePhase: "PLAYING"
             }
+        case "SET_INITIAL_LOC":
+            const map = getMapBasedOnDifficulty(state.difficulty);
+            return {
+                ...state,
+                board: generateBoard(map),
+                startupTiles: map.startupTiles.map(id => tileID(id)),
+                gamePhase: "INITIAL_SPOT"
+            }
+        case "SET_PLAYER_POSITION":
+            const currentPlayerID = action.payload?.playerID;
+            const selectedTileID = action.payload.tileID;
+            state.players.find(p => p.id === currentPlayerID)!.tileID = selectedTileID;
+            return {
+                ...state,
+            }
         default:
             return state;
+    }
+}
+
+function getMapBasedOnDifficulty(difficulty: Difficulty) {
+    switch (difficulty) {
+        case Difficulty.EASY:
+        default:
+            return board1Easy;
     }
 }

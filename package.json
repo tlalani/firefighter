@@ -20,6 +20,10 @@
     },
     "homepage": "https://github.com/tlalani/firefighter#readme",
     "dependencies": {
+        "@emotion/react": "^11.14.0",
+        "@emotion/styled": "^11.14.1",
+        "@mui/icons-material": "^9.3.1",
+        "@mui/material": "^9.3.1",
         "classnames": "^2.5.1"
     }
 }

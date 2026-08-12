@@ -10,7 +10,7 @@ export function useGameContext() {
     const context = useContext(GameContext);
     if (!context) throw new Error("useGameContext must be used within a GameContext");
 
-    return useContext(GameContext);
+    return context;
 }
 
 export default GameContext;

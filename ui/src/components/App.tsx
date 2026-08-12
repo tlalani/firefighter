@@ -15,7 +15,7 @@ function App() {
   const [setupState, dispatchSetup] = useReducer(gameSetupReducer, {
     difficulty: Difficulty.EASY,
     players: [],
-    gamePhase: 'SETUP'
+    gamePhase: 'SETUP_PLAYERS'
   });
 
   useEffect(() => {
@@ -28,14 +28,14 @@ function App() {
   }, [setupState.gamePhase, stateOfGame]);
 
   return (
-    <>
+    <div className='container'>
       <SetupContext.Provider value={{ setupState, dispatchSetup }}>
-        {setupState.gamePhase === "SETUP" && <SetupScreen />}
+        {setupState.gamePhase !== "PLAYING" && <SetupScreen />}
       </SetupContext.Provider>
       <GameContext.Provider value={{ stateOfGame, dispatchGame }}>
-        {setupState.gamePhase === "PLAYING" && <Board />}
+        {setupState.gamePhase === "PLAYING" && <div>Game Starting Baby!!!!</div>}
       </GameContext.Provider>
-    </>
+    </div>
   )
 };
 

@@ -19,5 +19,5 @@ export type { Tile } from './board/tile.js';
 export type { Edge, DoorEdge, WallEdge } from './board/edge.js';
 export { EdgeType } from './board/edge.js';
 export type { Direction, DIRECTIONS } from './board/direction.js';
-
+export type { Board } from './board/board.js';
 export { default as board1Easy } from "../maps/board1-easy.json";

@@ -13,7 +13,7 @@ export interface SetupEntity { id: number, tileID: number, type: string };
 export interface SetupPlayer { id: number, name: string, tileID?: number };
 export enum Difficulty { EASY = "EASY", HARD = "HARD" };
 
-export function generateBoard(width: number, height: number, tiles: { x: number, y: number, room: number, id: number }[], edges: { tileA: number, tileB: number, id: number, type: string, open?: boolean }[]) {
+export function generateBoard({ width, height, tiles, edges, }: { width: number, height: number, tiles: { x: number, y: number, room: number, id: number }[], edges: { tileA: number, tileB: number, id: number, type: string, open?: boolean }[] }) {
     const board: Board = {
         width: width,
         height: height,
@@ -46,7 +46,7 @@ export function generateBoard(width: number, height: number, tiles: { x: number,
 }
 
 export function generateGameState({ width, height, tiles, edges, startupTiles, players, entities }: { width: number, height: number, tiles: SetupTile[], edges: SetupEdge[], startupTiles: number[], entities: SetupEntity[], players: SetupPlayer[] }) {
-    const board = generateBoard(width, height, tiles, edges);
+    const board = generateBoard({ width, height, tiles, edges });
     entities.forEach(entity => board.tiles.find(tile => tile.id === tileID(entity.tileID))!.entity = entityID(entity.id));
     const lastEntityID = entities.sort((a, b) => a.id - b.id)[-1]?.id;
     const state: GameState = {
