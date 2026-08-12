@@ -3,18 +3,20 @@ import EntityLayer from './EntityLayer/EntityLayer';
 import HighlightLayer from './HighlightLayer/HighlightLayer';
 import TileLayer from './TileLayer/TileLayer';
 import './Board.css'
-import { generateBoard, board1Easy, type TileID } from '@firefighter/engine';
-const { width, height, tiles, edges } = board1Easy;
+import type { Board, TileID } from '@firefighter/engine';
 
-const board = generateBoard(width, height, tiles, edges);
+type BoardProps = {
+  board: Board,
+  highlighted: Set<TileID>,
+  darkened: Set<TileID>,
+  onTileClick: (id: TileID) => void
+};
 
-function Board() {
-  const highlighted = new Set(board.tiles.filter(tile => tile.room === 9).map(t => t.id));
-  const darkened = new Set<TileID>(board.tiles.filter(tile => tile.room !== 9).map(t => t.id));
+function GameBoard({ board, highlighted, darkened, onTileClick }: BoardProps) {
   return (
     <>
       <div className="board">
-        <TileLayer tiles={board.tiles}></TileLayer>
+        <TileLayer onTileClick={onTileClick} tiles={board.tiles}></TileLayer>
         <EdgeLayer edges={board.edges} tiles={board.tiles}></EdgeLayer>
         <HighlightLayer
           tiles={board.tiles}
@@ -27,4 +29,4 @@ function Board() {
   )
 }
 
-export default Board
+export default GameBoard

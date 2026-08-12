@@ -1,10 +1,11 @@
 import classNames from 'classnames';
 import './Tile.css'
-import { type Tile } from '@firefighter/engine';
+import { type Tile, type TileID } from '@firefighter/engine';
 type TileProps = {
   tile: Tile;
+  onTileClick: (id: TileID) => void
 }
-function GameTile({ tile }: TileProps) {
+function GameTile({ tile, onTileClick }: TileProps) {
 
   const tileClass = classNames(
     "tile",
@@ -12,7 +13,7 @@ function GameTile({ tile }: TileProps) {
   )
   return (
     <>
-      <div className={tileClass} key={tile.id}>{tile.x},{tile.y}</div>
+      <div onClick={() => onTileClick(tile.id)} className={tileClass} key={tile.id}>{tile.x},{tile.y}</div>
     </>
   )
 }

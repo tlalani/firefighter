@@ -1,7 +1,7 @@
 import BackdropEdge from './Edge/BackdropEdge'
 import DoorEdge from './Edge/DoorEdge'
 import WallEdge from './Edge/WallEdge'
-import './EdgeLayer'
+import './EdgeLayer.css'
 import { EdgeType, type Edge, type Tile, type WallEdge as Wall, type DoorEdge as Door } from "@firefighter/engine"
 
 
