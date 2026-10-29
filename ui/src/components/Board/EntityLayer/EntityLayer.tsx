@@ -1,6 +1,7 @@
-import type { Entity, EntityID, Tile } from "@firefighter/engine"
+import type { Entity, EntityID, POIEntity, Tile } from "@firefighter/engine"
 import { EntityType } from "@firefighter/engine";
 import './EntityLayer.css';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
 
 type EntityLayerProps = {
     entities: Record<EntityID, Entity>,
@@ -22,7 +23,15 @@ export default function EntityLayer({ entities, tiles }: EntityLayerProps) {
                         gridColumn: tile.x + 1,
                         gridRow: tile.y + 1,
                         }}>
-                            {entity.type === EntityType.POI ? "?" : entity.type.charAt(0)}
+                            {
+                                (() => {
+                                    if (entity.type === EntityType.POI) {
+                                        return !(entity as POIEntity).revealed ? "?" : "POI"
+                                    } else if (entity.type === EntityType.FIRE) {
+                                        return <WhatshotIcon fontSize="large"></WhatshotIcon>
+                                    }
+                                })()
+                            }
                         </div>
                 )
             })

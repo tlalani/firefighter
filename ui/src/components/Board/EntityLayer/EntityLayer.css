@@ -18,13 +18,18 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  border: 2px solid white;
-  background: #333;
   color: white;
-  font-size: clamp(12px, 1.5vw, 20px);
+  font-size: 25px;
   font-weight: bold;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.entity-fire {
+  color: red;
+  background: seashell;
 }
 
 .entity-poi {
-  background: #333;
+  background: #19b0f0;
+  border: 2px solid white;
 }
