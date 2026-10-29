@@ -44,6 +44,13 @@ export function gameSetupReducer(state: SetupState, action: SetupAction): SetupS
             return {
                 ...state,
             }
+        case "GO_BACK":
+            if (state.gamePhase === "INITIAL_SPOT") {
+                return {
+                    ...state,
+                    gamePhase: 'SETUP_PLAYERS',
+                }
+            }
         default:
             return state;
     }

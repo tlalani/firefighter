@@ -1,0 +1,30 @@
+.entity-layer {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  grid-template-rows: repeat(8, minmax(0, 1fr));
+  z-index: 2;
+  pointer-events: none;
+}
+
+.entity {
+  width: calc(var(--tile-size) * 0.75);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: flex;
+  align-self: center;
+  justify-self:center;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border: 2px solid white;
+  background: #333;
+  color: white;
+  font-size: clamp(12px, 1.5vw, 20px);
+  font-weight: bold;
+}
+
+.entity-poi {
+  background: #333;
+}

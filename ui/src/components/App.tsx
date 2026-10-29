@@ -1,13 +1,13 @@
 import { useEffect, useReducer } from 'react'
 import GameContext from '../context/GameContext'
 import './App.css'
-import Board from './Board/Board'
 import { gameSetupReducer } from '../context/reducer/SetupReducer'
 import SetupContext from '../context/SetupContext'
 import { board1Easy, Difficulty, generateGameState } from '@firefighter/engine'
 import { gameReducer } from '../context/reducer/GameReducer'
 import { GameActions } from '../context/reducer/Actions'
 import SetupScreen from './Setup/SetupScreen'
+import Game from './Game/Game'
 
 function App() {
 
@@ -23,7 +23,7 @@ function App() {
 
     const map = board1Easy;
     const initialState = generateGameState({ ...map, players: setupState.players });
-
+    console.log(initialState);
     dispatchGame({ type: GameActions.INIT_GAME, payload: initialState });
   }, [setupState.gamePhase, stateOfGame]);
 
@@ -33,7 +33,7 @@ function App() {
         {setupState.gamePhase !== "PLAYING" && <SetupScreen />}
       </SetupContext.Provider>
       <GameContext.Provider value={{ stateOfGame, dispatchGame }}>
-        {setupState.gamePhase === "PLAYING" && <div>Game Starting Baby!!!!</div>}
+        {stateOfGame != null && <Game></Game>}
       </GameContext.Provider>
     </div>
   )

@@ -4,11 +4,12 @@ export * from "./utils/actions.js";
 export * from "./utils/actions/player.js";
 export * from "./utils/queries.js";
 export * from "./utils/game-setup.js";
+export { type AvailableAction } from './utils/actions/actions.model.js';
 
 export * from "./board/ids.js";
 
 export type { Player } from './player/player.js';
-
+export { EntityType } from './entities/entity.js';
 export type { Entity } from './entities/entity.js';
 export type { POIEntity } from './entities/poi.js';
 export type { FireEntity } from './entities/fire.js';

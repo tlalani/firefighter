@@ -1,4 +1,4 @@
-import { Direction } from "../board/direction.js";
+import { Direction, DIRECTIONS } from "../board/direction.js";
 import { EdgeType } from "../board/edge.js";
 import { TileID } from "../board/ids.js";
 import { EntityType } from "../entities/entity.js";
@@ -17,6 +17,16 @@ export function canMove(state: GameState, tileID: TileID, dir: Direction): boole
 
     if (!otherTile || thisTile.edges[dir] && !canCrossEdge(state, thisTile.edges[dir])) return false;
     return true;
+}
+
+export function getAvailablePlayerActions(state: GameState) {
+    const possibleActions: AvailableAction[] = [];
+    for (let dir of DIRECTIONS) {
+        possibleActions.push(...getAvailableActionsByDirection(state, dir))
+    }
+    possibleActions.push(...getAvailableActionsOnTile(state));
+
+    return possibleActions;
 }
 
 export function getAvailableActionsByDirection(state: GameState, dir: Direction) {
